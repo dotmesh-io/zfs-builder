@@ -1,3 +1,5 @@
 statically compile with:
 
 CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-w'
+
+docker run -ti ubuntu:xenial zcat /proc/config.gz > kernel_config.docker4mac
