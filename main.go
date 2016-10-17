@@ -27,7 +27,7 @@ const DESTINATION_GIT_URL string = "/tmp/repo"
 */
 
 const FAKE_NETWORK_SERVICES bool = true
-const DESTINATION_GIT_URL string = "git@github.com:clusterhq/zfs-binaries"
+const DESTINATION_GIT_URL string = "git@github.com:lukemarsden/zfs-binaries"
 
 func main() {
 	settings := getSettings()
@@ -96,7 +96,7 @@ func pushToGit(operatingSystem string, channel string, kernel string) {
 func checkReleaseExists(operatingSystem string, channel string, kernel string) (bool, error) {
 	// Check whether a release exists on GitHub... returns true/false, or an
 	// error.
-	url := "https://raw.githubusercontent.com/ClusterHQ/zfs-binaries/master"
+	url := "https://raw.githubusercontent.com/lukemarsden/zfs-binaries/master"
 	resp, err := http.Head(fmt.Sprintf("%s/%s/zfs-%s.tar.gz", url, operatingSystem, kernel))
 	if err != nil {
 		return false, err
