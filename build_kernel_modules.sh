@@ -10,6 +10,7 @@ function build {
 
 # docker4mac
 
+build 4.4.27 4.4.27-moby docker4mac
 build 4.4.24 4.4.24-moby docker4mac
 
 # boot2docker
