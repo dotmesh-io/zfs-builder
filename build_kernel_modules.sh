@@ -12,7 +12,12 @@ function build {
     if [ -e $RELEASEDIR/$FILE ]; then
         echo "Skipping $FILE, already exists"
     else
-        docker build --build-arg KERN_CONF_SUFFIX=$DOCKERFILE --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE .
+        KERN_CONF_SUFFIX=$DOCKERFILE
+        # allow specializing kernel configs based on kernel version
+        if [ -e kernel_config.$KERN_CONF_SUFFIX-$KERNEL ]; then
+            KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX-$KERNEL
+        fi
+        docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE .
         docker run -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} /build_zfs.sh
         cp rootfs/$FILE $RELEASEDIR/
     fi
