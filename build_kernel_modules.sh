@@ -1,11 +1,21 @@
 #!/bin/bash
+set -xe
 
 function build {
     echo Building $1 $2 $3
     KERNEL=$1
     UNAME_R=$2
     DOCKERFILE=$3
-    UNAME_R=$UNAME_R ./zfs-builder sh -c "docker build --build-arg KERN_CONF_SUFFIX=$DOCKERFILE --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE . && docker run -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} /build_zfs.sh && cp rootfs/zfs-${UNAME_R}.tar.gz ."
+    UNAME_R=$UNAME_R
+    FILE=zfs-${UNAME_R}.tar.gz
+    RELEASEDIR=/pool/releases/zfs
+    if [ -e $RELEASEDIR/$FILE ]; then
+        echo "Skipping $FILE, already exists"
+    else
+        echo docker build --build-arg KERN_CONF_SUFFIX=$DOCKERFILE --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE .
+        echo docker run -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} /build_zfs.sh
+        echo cp rootfs/$FILE $RELEASEDIR/
+    fi
 }
 
 # docker4mac
@@ -21,22 +31,14 @@ done
 # look up docker version -> kernel mapping here:
 # https://github.com/boot2docker/boot2docker/releases
 
-#build 4.1.19 4.1.19-boot2docker boot2docker
+versions=$(curl -sSL https://github.com/boot2docker/boot2docker/releases|grep Linux |awk '/pub/ {print $3}' |awk -F 'v' '{print $3}' |awk -F '<' '{print $1}')
+echo Building boot2docker versions:
+echo $versions
 
-#build 4.1.18 4.1.18-boot2docker boot2docker
-#build 4.1.17 4.1.17-boot2docker boot2docker
-
-#build 4.1.13 4.1.13-boot2docker boot2docker
-#build 4.1.12 4.1.12-boot2docker boot2docker
-
-# XXX fails
-#build 4.0.10 4.0.10-boot2docker boot2docker
-# XXX fails
-#build 4.0.9 4.0.9-boot2docker boot2docker
+for version in $versions; do
+    build $version $version-boot2docker boot2docker
+done
 
 # travis trusty XXX TODO create Dockerfile.ubuntu-trusty and
 # kernel_config.ububtu-trusty
 #build 3.19 3.19.0-30-generic ubuntu-trusty
-
-# travis precise, probably an ubuntu kernel
-#build 3.13 3.13.0-63-generic ubuntu-precise # XXX fails
