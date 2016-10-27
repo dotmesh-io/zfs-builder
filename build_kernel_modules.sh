@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 function build {
     echo Building $1 $2 $3
@@ -12,9 +12,9 @@ function build {
     if [ -e $RELEASEDIR/$FILE ]; then
         echo "Skipping $FILE, already exists"
     else
-        echo docker build --build-arg KERN_CONF_SUFFIX=$DOCKERFILE --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE .
-        echo docker run -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} /build_zfs.sh
-        echo cp rootfs/$FILE $RELEASEDIR/
+        docker build --build-arg KERN_CONF_SUFFIX=$DOCKERFILE --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE .
+        docker run -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} /build_zfs.sh
+        cp rootfs/$FILE $RELEASEDIR/
     fi
 }
 
