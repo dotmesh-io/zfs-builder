@@ -10,8 +10,12 @@ function build {
 
 # docker4mac
 
-build 4.4.27 4.4.27-moby docker4mac
-build 4.4.24 4.4.24-moby docker4mac
+versions=$(cd d4m-poller && ./check.sh)
+echo Building docker4mac versions:
+echo $versions
+for version in $versions; do
+    build ${version} ${version}-moby docker4mac
+done
 
 # boot2docker
 # look up docker version -> kernel mapping here:
