@@ -25,7 +25,7 @@ cd /zfs/spl
     --datarootdir=/usr/share \
     --with-linux=/linux-kernel \
     --with-linux-obj=/linux-kernel \
-    --with-config=kernel
+    --with-config=all
 
 make -j8
 make install DESTDIR=/rootfs
@@ -42,7 +42,7 @@ cd /zfs/zfs
     --with-linux-obj=/linux-kernel \
     --with-spl=/zfs/spl \
     --with-spl-obj=/zfs/spl \
-    --with-config=kernel
+    --with-config=all
 
 make -j8
 echo "Got after make $?"
