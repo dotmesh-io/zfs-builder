@@ -26,9 +26,7 @@ ARG LOCALVERSION
 RUN curl --retry 10 https://www.kernel.org/pub/linux/kernel/v${KERNEL_VERSION%%.*}.x/linux-$KERNEL_VERSION.tar.xz | tar -C / -xJ && \
     mv /linux-$KERNEL_VERSION /linux-kernel
 
-RUN apt-get -y install shtool
-RUN apt-get -y install libtool
-RUN apt-get -y install build-essential gawk alien fakeroot zlib1g-dev uuid-dev libblkid-dev libselinux-dev parted lsscsi wget
+RUN apt-get update && apt-get -y install shtool libtool build-essential gawk alien fakeroot zlib1g-dev uuid-dev libblkid-dev libselinux-dev parted lsscsi wget
 
 ADD kernel_config.boot2docker /linux-kernel/.config
 
