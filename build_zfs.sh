@@ -9,11 +9,11 @@ rm -rf *
 
 git clone https://github.com/zfsonlinux/spl.git /zfs/spl
 cd /zfs/spl
-git checkout spl-0.7.0-rc3
+git checkout spl-0.7.0-rc4
 
 git clone https://github.com/zfsonlinux/zfs.git /zfs/zfs
 cd /zfs/zfs
-git checkout zfs-0.7.0-rc3
+git checkout zfs-0.7.0-rc4
 
 # Configure and compile SPL kernel module
 cd /zfs/spl
