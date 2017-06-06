@@ -1,5 +1,5 @@
 #!/bin/bash
-for X in stable beta; do
+for X in stable edge; do
     mkdir -p tmp
     cd tmp
     curl -sSL -o Docker.dmg https://download.docker.com/mac/$X/Docker.dmg
