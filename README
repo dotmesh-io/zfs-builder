@@ -1,5 +1,6 @@
-statically compile with:
+When there's a new kernel:
 
-CGO_ENABLED=0 GOOS=linux go build -a -tags netgo -ldflags '-w'
-
-docker run -ti ubuntu:xenial zcat /proc/config.gz > kernel_config.docker4mac
+```
+docker run -ti busybox zcat /proc/config.gz > kernel_config.docker4mac-4.9.31
+docker run -ti busybox zcat /proc/config.gz > kernel_config.docker4mac
+```

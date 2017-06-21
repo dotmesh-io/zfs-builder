@@ -1,4 +1,4 @@
-#
+docker run -ti busybox zcat /proc/config.gz > kernel_config.docker4mac#
 # Automatically generated file; DO NOT EDIT.
 # Linux/x86 4.9.31 Kernel Configuration
 #
