@@ -29,20 +29,20 @@ versions=$(cd d4m-poller && ./check.sh)
 echo Building docker4mac versions:
 echo $versions
 for version in $versions; do
-    build ${version} ${version}-moby docker4mac
+    build ${version} ${version}-linuxkit-aufs linuxkit-aufs
 done
 
 # boot2docker
 # look up docker version -> kernel mapping here:
 # https://github.com/boot2docker/boot2docker/releases
 
-versions=$(curl -sSL https://github.com/boot2docker/boot2docker/releases|grep Linux |awk '/pub/ {print $3}' |awk -F 'v' '{print $3}' |awk -F '<' '{print $1}')
-echo Building boot2docker versions:
-echo $versions
+#versions=$(curl -sSL https://github.com/boot2docker/boot2docker/releases|grep Linux |awk '/pub/ {print $3}' |awk -F 'v' '{print $3}' |awk -F '<' '{print $1}')
+#echo Building boot2docker versions:
+#echo $versions
 
-for version in $versions; do
-    build $version $version-boot2docker boot2docker
-done
+#for version in $versions; do
+#    build $version $version-boot2docker boot2docker
+#done
 
 # travis trusty XXX TODO create Dockerfile.ubuntu-trusty and
 # kernel_config.ububtu-trusty
