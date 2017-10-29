@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 for X in stable edge; do
     mkdir -p tmp
     cd tmp
