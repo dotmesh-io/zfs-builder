@@ -29,7 +29,10 @@ versions=$(cd d4m-poller && ./check.sh)
 echo Building docker4mac versions:
 echo $versions
 for version in $versions; do
-    build ${version} ${version}-linuxkit-aufs linuxkit-aufs
+    build ${version} ${version}-linuxkit-aufs linuxkit
+    # try to be forward compatible for when versions without aufs patches
+    # become edge/stable
+    build ${version} ${version}-linuxkit linuxkit
 done
 
 # boot2docker
