@@ -1,6 +1,6 @@
 When there's a new kernel:
 
 ```
-docker run -ti busybox zcat /proc/config.gz > kernel_config.docker4mac-4.9.31
-docker run -ti busybox zcat /proc/config.gz > kernel_config.docker4mac
+docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit-$(docker run -ti busybox uname -r |cut -d '-' -f 1)
+docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit
 ```
