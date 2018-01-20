@@ -26,7 +26,7 @@ ARG KERN_CONF_SUFFIX
 
 # Fetch the kernel sources
 RUN curl --retry 10 -o linux-$KERNEL_VERSION.tar.xz https://www.kernel.org/pub/linux/kernel/v${KERNEL_VERSION%%.*}.x/linux-$KERNEL_VERSION.tar.xz
-RUN tar -C / -xfJ linux-$KERNEL_VERSION.tar.xz
+RUN tar xf linux-$KERNEL_VERSION.tar.xz
 RUN mv /linux-$KERNEL_VERSION /linux-kernel
 
 RUN apt-get update && apt-get -y install shtool libtool build-essential gawk alien fakeroot zlib1g-dev uuid-dev libblkid-dev libselinux-dev parted lsscsi wget libattr1-dev
