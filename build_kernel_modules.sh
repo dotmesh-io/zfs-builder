@@ -5,35 +5,42 @@ function build {
     echo Building $1 $2 $3
     KERNEL=$1
     UNAME_R=$2
-    DOCKERFILE=$3
+    DISTRO=$3
+	 DOCKERFILE=$4
+
+	 if [ X$DOCKERFILE == X ]
+	 then
+		  DOCKERFILE=$DISTRO
+	 fi
+
     UNAME_R=$UNAME_R
     FILE=zfs-${UNAME_R}.tar.gz
     RELEASEDIR=/pool/releases/zfs
     if [ -e $RELEASEDIR/$FILE ]; then
         echo "Skipping $FILE, already exists"
     else
-        KERN_CONF_SUFFIX=$DOCKERFILE
+        KERN_CONF_SUFFIX=$DISTRO
         # allow specializing kernel configs based on kernel version
         if [ -e kernel_config.$KERN_CONF_SUFFIX-$KERNEL ]; then
             KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX-$KERNEL
         fi
-        docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} -f Dockerfile.$DOCKERFILE .
-        docker run --rm -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DOCKERFILE:${UNAME_R} /build_zfs.sh
+        docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DISTRO:${UNAME_R} -f Dockerfile.$DOCKERFILE .
+        docker run --rm -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
         cp rootfs/$FILE $RELEASEDIR/
     fi
 }
 
 # docker4mac
 
-versions=$(cd d4m-poller && ./check.sh)
-echo Building docker4mac versions:
-echo $versions
-for version in $versions; do
-    build ${version} ${version}-linuxkit-aufs linuxkit
-    # try to be forward compatible for when versions without aufs patches
-    # become edge/stable
-    build ${version} ${version}-linuxkit linuxkit
-done
+#versions=$(cd d4m-poller && ./check.sh)
+#echo Building docker4mac versions:
+#echo $versions
+#for version in $versions; do
+#    build ${version} ${version}-linuxkit-aufs linuxkit
+#    # try to be forward compatible for when versions without aufs patches
+#    # become edge/stable
+#    build ${version} ${version}-linuxkit linuxkit
+#done
 
 # boot2docker
 # look up docker version -> kernel mapping here:
@@ -47,6 +54,5 @@ done
 #    build $version $version-boot2docker boot2docker
 #done
 
-# travis trusty XXX TODO create Dockerfile.ubuntu-trusty and
-# kernel_config.ububtu-trusty
-#build 3.19 3.19.0-30-generic ubuntu-trusty
+# travis' trusty variant
+build 4.4 4.4.0-101-generic ubuntu-trusty travis
