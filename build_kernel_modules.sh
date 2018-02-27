@@ -56,3 +56,6 @@ function build {
 
 # travis' trusty variant
 build 4.4 4.4.0-101-generic ubuntu-trusty travis
+
+# Centos 7
+build 3.10 3.10.0-693.11.6.el7.x86_64 centos-7-4
