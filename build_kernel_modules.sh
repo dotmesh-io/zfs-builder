@@ -25,8 +25,10 @@ function build {
             KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX-$KERNEL
         fi
         docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DISTRO:${UNAME_R} -f Dockerfile.$DOCKERFILE .
-        docker run --rm -e UNAME_R=$UNAME_R -v ${PWD}/rootfs:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
-        cp rootfs/$FILE $RELEASEDIR/
+        echo docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
+		  docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
+		  ls -l /rootfs
+        cp /rootfs/$FILE $RELEASEDIR/
     fi
 }
 

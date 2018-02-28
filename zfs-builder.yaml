@@ -1,0 +1,26 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: zfs-builder
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: zfs-builder
+            image: 'quay.io/dotmesh/zfs-builder'
+            volumeMounts:
+              - name: docker-sock
+                mountPath: /var/run/docker.sock
+              - name: tmp
+                mountPath: /rootfs
+          volumes:
+            - name: docker-sock
+              hostPath:
+                path: /var/run/docker.sock
+            - name: tmp
+              hostPath:
+                path: /tmp/zfs-builder
+          restartPolicy: OnFailure
