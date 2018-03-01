@@ -9,6 +9,8 @@ ARG LOCALVERSION
 ARG KERN_CONF_SUFFIX
 
 RUN yum install -y http://download.zfsonlinux.org/epel/zfs-release.el7_4.noarch.rpm
+ADD centos-7-4.zfs.repo /etc/yum.repos.d/zfs.repo
 RUN gpg --quiet --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-zfsonlinux | grep 'C93A FFFD 9F3F 7B03 C310  CEB6 A9D5 A1C0 F14A B620'
-RUN yum install -y zfs
-ADD build_zfs.cents-7-4.sh /build_zfs.sh
+RUN yum install -y kmod-spl-0.6.5.11-1.el7_4.x86_64
+RUN yum install -y zfs-0.6.5.11-1.el7_4
+ADD build_zfs.centos-7-4.sh /build_zfs.sh

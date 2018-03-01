@@ -32,6 +32,9 @@ function build {
     fi
 }
 
+# Centos 7
+build 3.10 3.10.0-693.11.6.el7.x86_64 centos-7-4
+
 # docker4mac
 
 versions=$(cd d4m-poller && ./check.sh)
@@ -58,6 +61,3 @@ done
 
 # travis' trusty variant
 build 4.4 4.4.0-101-generic ubuntu-trusty travis
-
-# Centos 7
-build 3.10 3.10.0-693.11.6.el7.x86_64 centos-7-4

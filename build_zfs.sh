@@ -73,5 +73,5 @@ make install DESTDIR=/rootfs
 echo "Got after make install $?"
 
 cd /rootfs/
-tar cfv /rootfs/zfs-${UNAME_R}.tar.gz *
+tar czfv /rootfs/zfs-${UNAME_R}.tar.gz *
 echo "Plopped it into /rootfs/zfs-${UNAME_R}.tar.gz"

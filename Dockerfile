@@ -10,7 +10,7 @@ RUN curl -o /tmp/docker.tgz \
     chmod +x /usr/local/bin/docker && \
     rm -rf /tmp/docker
 
-ADD build_kernel_modules.sh build_zfs.sh Dockerfile.* kernel_config.* /build/
+ADD build_kernel_modules.sh build_zfs*.sh Dockerfile.* kernel_config.* src/* /build/
 ADD d4m-poller/check.sh /build/d4m-poller/
 WORKDIR /build
 CMD /bin/bash build_kernel_modules.sh

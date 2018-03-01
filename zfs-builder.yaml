@@ -1,26 +1,48 @@
-apiVersion: batch/v1beta1
-kind: CronJob
-metadata:
-  name: zfs-builder
-spec:
-  schedule: "0 0 * * *"
-  jobTemplate:
+---
+apiVersion: v1
+kind: List
+items:
+  - apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: zfs-kernel-modules
+      annotations:
+        dotmeshName: zfs-kernel-modules@master
     spec:
-      template:
+      storageClassName: dotmesh
+      accessModes:
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+  - apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: zfs-builder
+    spec:
+      schedule: "0 0 * * *"
+      jobTemplate:
         spec:
-          containers:
-          - name: zfs-builder
-            image: 'quay.io/dotmesh/zfs-builder'
-            volumeMounts:
-              - name: docker-sock
-                mountPath: /var/run/docker.sock
-              - name: tmp
-                mountPath: /rootfs
-          volumes:
-            - name: docker-sock
-              hostPath:
-                path: /var/run/docker.sock
-            - name: tmp
-              hostPath:
-                path: /tmp/zfs-builder
-          restartPolicy: OnFailure
+          template:
+            spec:
+              containers:
+              - name: zfs-builder
+                image: 'quay.io/dotmesh/zfs-builder'
+                volumeMounts:
+                  - name: docker-sock
+                    mountPath: /var/run/docker.sock
+                  - name: tmp
+                    mountPath: /rootfs
+                  - name: output
+                    mountPath: /pool/releases/zfs
+              volumes:
+                - name: docker-sock
+                  hostPath:
+                    path: /var/run/docker.sock
+                - name: tmp
+                  hostPath:
+                    path: /tmp/zfs-builder
+                - name: output
+                  persistentVolumeClaim:
+                    claimName: zfs-kernel-modules
+              restartPolicy: OnFailure
