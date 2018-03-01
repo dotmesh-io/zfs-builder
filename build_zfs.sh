@@ -74,5 +74,4 @@ echo "Got after make install $?"
 
 cd /rootfs/
 tar cfv /rootfs/zfs-${UNAME_R}.tar.gz *
-ls -l /rootfs # ABS TEST
 echo "Plopped it into /rootfs/zfs-${UNAME_R}.tar.gz"
