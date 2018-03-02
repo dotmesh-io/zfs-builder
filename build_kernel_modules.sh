@@ -6,12 +6,12 @@ function build {
     KERNEL=$1
     UNAME_R=$2
     DISTRO=$3
-	 DOCKERFILE=$4
+    DOCKERFILE=$4
 
-	 if [ X$DOCKERFILE == X ]
-	 then
-		  DOCKERFILE=$DISTRO
-	 fi
+    if [ X$DOCKERFILE == X ]
+    then
+        DOCKERFILE=$DISTRO
+    fi
 
     UNAME_R=$UNAME_R
     FILE=zfs-${UNAME_R}.tar.gz
@@ -26,9 +26,9 @@ function build {
         fi
         docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DISTRO:${UNAME_R} -f Dockerfile.$DOCKERFILE .
         echo docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
-		  docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
-		  ls -l /rootfs
-        cp /rootfs/$FILE $RELEASEDIR/
+        docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
+        ls -l /tmp/zfs-builder
+        cp /tmp/zfs-builder/$FILE $RELEASEDIR/
     fi
 }
 
