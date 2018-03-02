@@ -33,8 +33,11 @@ items:
                     mountPath: /var/run/docker.sock
                   - name: tmp
                     mountPath: /rootfs
-                  - name: output
-                    mountPath: /pool/releases/zfs
+                  - name: zfs-module-cache
+                    mountPath: /zfs-module-cache
+                  - name: release-ssh-keys
+                    mountPath: /ssh-keys
+                    readOnly: true
               volumes:
                 - name: docker-sock
                   hostPath:
@@ -42,7 +45,10 @@ items:
                 - name: tmp
                   hostPath:
                     path: /tmp/zfs-builder
-                - name: output
+                - name: zfs-module-cache
                   persistentVolumeClaim:
                     claimName: zfs-kernel-modules
+                - name: release-ssh-keys
+                  secret:
+                    secretName: release-ssh-keys
               restartPolicy: OnFailure

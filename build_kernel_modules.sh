@@ -1,6 +1,15 @@
 #!/bin/bash
 set -e
 
+CACHEDIR=/zfs-module-cache
+RELEASE=releases@get.dotmesh.io:/pool/releases/zfs/
+
+cp /ssh-keys/id_rsa $HOME/.ssh/id_rsa
+chmod 0600 $HOME/.ssh/id_rsa
+
+# Make sure we've got everything from production
+rsync -rvz $RELEASE $CACHEDIR
+
 function build {
     echo Building $1 $2 $3
     KERNEL=$1
@@ -15,8 +24,7 @@ function build {
 
     UNAME_R=$UNAME_R
     FILE=zfs-${UNAME_R}.tar.gz
-    RELEASEDIR=/pool/releases/zfs
-    if [ -e $RELEASEDIR/$FILE ]; then
+    if [ -e $CACHEDIR/$FILE ]; then
         echo "Skipping $FILE, already exists"
     else
         KERN_CONF_SUFFIX=$DISTRO
@@ -24,11 +32,11 @@ function build {
         if [ -e kernel_config.$KERN_CONF_SUFFIX-$KERNEL ]; then
             KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX-$KERNEL
         fi
-        docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t lmarsden/build-zfs-$DISTRO:${UNAME_R} -f Dockerfile.$DOCKERFILE .
-        echo docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
-        docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs lmarsden/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
+        docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t dotmesh-io/build-zfs-$DISTRO:${UNAME_R} -f Dockerfile.$DOCKERFILE .
+        echo docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs dotmesh-io/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
+        docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs dotmesh-io/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
         ls -l /tmp/zfs-builder
-        cp /tmp/zfs-builder/$FILE $RELEASEDIR/
+        cp /tmp/zfs-builder/$FILE $CACHEDIR/
     fi
 }
 
@@ -61,3 +69,6 @@ done
 
 # travis' trusty variant
 build 4.4 4.4.0-101-generic ubuntu-trusty travis
+
+# Upload anything we newly made
+rsync -rvz $CACHEDIR/ $RELEASE
