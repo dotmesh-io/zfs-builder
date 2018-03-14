@@ -4,3 +4,9 @@ When there's a new kernel:
 docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit-$(docker run -ti busybox uname -r |cut -d '-' -f 1)
 docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit
 ```
+
+When `rebuild.sh` is run in this repo, a new zfs-builder image is sent to quay.io.
+
+The zfs-builder CronJob in the production cluster (see the `saas-manifests` repo) picks up that image.
+
+The ZFS module cache is stored in the dot `zfs-kernel-modules` on the dothub (admin namespace)!

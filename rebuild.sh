@@ -1,7 +1,10 @@
 #!/bin/sh
 
-docker build -t zfs-builder .
+VERSION="`git rev-parse HEAD`"
+REMOTE_IMAGE="quay.io/dotmesh/zfs-builder:release-$VERSION"
 
-docker tag zfs-builder zfs-builder:dev
-docker tag zfs-builder quay.io/dotmesh/zfs-builder:dev
-docker push quay.io/dotmesh/zfs-builder:dev
+echo "Building $REMOTE_IMAGE"
+docker build -t "$REMOTE_IMAGE" .
+
+echo "Deploying to $REMOTE_IMAGE"
+docker push "$REMOTE_IMAGE"
