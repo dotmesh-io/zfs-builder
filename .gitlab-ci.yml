@@ -1,0 +1,23 @@
+variables:
+    CI_DOCKER_REGISTRY: quay.io/dotmesh
+    CI_IMAGE_NAME: zfs-builder
+
+stages:
+    - build
+
+before_script:
+    - docker login -u $QUAY_USER -p $QUAY_PASSWORD quay.io
+
+build:
+    stage: build
+    tags:
+        - ubuntu
+        - fast
+    variables:
+        IMAGE: $CI_DOCKER_REGISTRY/$CI_IMAGE_NAME:release-$CI_COMMIT_SHA
+    script:
+        - echo "Building $IMAGE"
+        - docker build -t $IMAGE .
+        - echo "Pushing $IMAGE"
+        - docker push "$IMAGE"
+
