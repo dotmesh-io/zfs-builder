@@ -21,14 +21,21 @@ ARG KERNEL_VERSION
 # like "-boot2docker", ends up in module magic and must match running
 # kernel for modules to be loadable
 ARG LOCALVERSION
+# boot2docker or docker4mac
+ARG KERN_CONF_SUFFIX
 
 # Fetch the kernel sources
-RUN (curl --retry 10 https://www.kernel.org/pub/linux/kernel/v${KERNEL_VERSION%%.*}.x/linux-$KERNEL_VERSION.tar.xz | tar -C / -xJ) && \
-    mv /linux-$KERNEL_VERSION /linux-kernel
+#RUN curl --retry 10 -o linux-$KERNEL_VERSION.tar.xz https://www.kernel.org/pub/linux/kernel/v${KERNEL_VERSION%%.*}.x/linux-$KERNEL_VERSION.tar.xz
+#RUN sleep 5; tar xf linux-$KERNEL_VERSION.tar.xz
+#RUN mv /linux-$KERNEL_VERSION /linux-kernel
 
-RUN apt-get update && apt-get -y install shtool libtool build-essential gawk alien fakeroot zlib1g-dev uuid-dev libblkid-dev libselinux-dev parted lsscsi wget
+#RUN cd / ; git clone git://kernel.ubuntu.com/ubuntu/ubuntu-trusty.git linux-kernel
 
-ADD kernel_config.boot2docker /linux-kernel/.config
+RUN cd / ; git clone git://git.launchpad.net/~ubuntu-kernel/ubuntu/+source/linux/+git/trusty -b lts-backport-xenial linux-kernel
+
+RUN apt-get update && apt-get -y install shtool libtool build-essential gawk alien fakeroot zlib1g-dev uuid-dev libblkid-dev libselinux-dev parted lsscsi wget libattr1-dev
+
+ADD kernel_config.$KERN_CONF_SUFFIX /linux-kernel/.config
 
 RUN cd /linux-kernel && \
     make -j8
