@@ -25,7 +25,7 @@ ARG LOCALVERSION
 ARG KERN_CONF_SUFFIX
 
 # Fetch the kernel sources
-RUN curl --retry 10 -o linux-$KERNEL_VERSION.tar.xz https://www.kernel.org/pub/linux/kernel/v${KERNEL_VERSION%%.*}.x/linux-$KERNEL_VERSION.tar.xz
+RUN curl -sSL --retry 10 -o linux-$KERNEL_VERSION.tar.xz https://www.kernel.org/pub/linux/kernel/v${KERNEL_VERSION%%.*}.x/linux-$KERNEL_VERSION.tar.xz
 RUN sleep 5; tar xf linux-$KERNEL_VERSION.tar.xz
 RUN mv /linux-$KERNEL_VERSION /linux-kernel
 
