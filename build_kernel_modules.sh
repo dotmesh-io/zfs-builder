@@ -35,8 +35,8 @@ function build {
         docker build --build-arg KERN_CONF_SUFFIX=$KERN_CONF_SUFFIX --build-arg KERNEL_VERSION=$KERNEL -t dotmesh-io/build-zfs-$DISTRO:${UNAME_R} -f Dockerfile.$DOCKERFILE .
         echo docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs dotmesh-io/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
         docker run --rm -e UNAME_R=$UNAME_R -v /tmp/zfs-builder:/rootfs dotmesh-io/build-zfs-$DISTRO:${UNAME_R} /build_zfs.sh
-        ls -l /tmp/zfs-builder
-        cp /tmp/zfs-builder/$FILE $CACHEDIR/
+        ls -l /rootfs
+        cp /rootfs/$FILE $CACHEDIR/
     fi
 }
 
