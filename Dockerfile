@@ -17,7 +17,7 @@ ADD d4m-poller/check.sh /build/d4m-poller/
 
 RUN mkdir /root/.ssh && \
     echo 'get.dotmesh.io,145.239.204.38 ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKdDVkv5RcBXgzQv3oX4TEGbknjGLLcppBK0df8c5pedr+JAYlf4UIkyKlkxxH0iRuf/B3iuhwaqRzTifdtXLL8=' > /root/.ssh/known_hosts && \
-    echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+TjcqBTJgSyvFdArZpUZLEUgKxO8Wr+wKkKIilCbl7mP3jZnWx8k24x9LZRI4eqSbMFtzlNYOoBCmsPvhtvJFZHGPI8HdOz9cwEC1EZKUi2F/466P1mvo2OPvXVRyCc9JV3Rx3j6yYiIeb00hLfO/Uh60HgF5shl2Ranrw4vKyCVGW5FA9rdVhydrfQirhxHyBTXWmzzVAvCQMFQPa8kYj8mnpIQyYHK7GRbpPvVSksSZ5w7M28mzJ1gtqJGxwOykh0d+O1O7thpWnjwSUC2+xSDzuFTY/YOYVzKT50e0DPUkJQ+jGJbjFAFuFTOfgbgAZTBTZsf97zDO7XV+AZPZ zfs-builder' > /root/.ssh/id_rsa.pub && \
+    echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDCkJbO3u22GPET1p1uTHOW3A3orTlHT4k/cJTyuBqvbg5y3NFW7xc0G9mvjDIFY1dSNSer50OpTgwAN7WeyUmQYjOLM0vfhbS4AVTeyrBUeGDN1TH1fgzS6IWc+f8UNyx2qnN1qdAO8eJQM3hOjlf3QHRaUyPrXDE4cMVmIKqqdozMqDnPAQXv/jv/hUbtpX2LilQTVz+gMpkASMuE2bVrRAezM1yCN+fwf1CIVkwGGYum+0HiA/JoPayqOvGOKGkpeIK1UC7f9WjG1irr1fg5wnE9m+xxfh5N60ipUJLUmlahOjTTmfrhGxyyEHGEoEP8m9VCxkaKkOiQpGtofXVD zfs-builder' > /root/.ssh/id_rsa.pub && \
     chmod 0600 /root/.ssh/* && \
     chmod 0700 /root/.ssh
 WORKDIR /build
