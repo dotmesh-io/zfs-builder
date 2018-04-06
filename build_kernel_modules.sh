@@ -7,8 +7,6 @@ RELEASE=releases@get.dotmesh.io:/pool/releases/zfs/
 cp /ssh-keys/id_rsa $HOME/.ssh/id_rsa
 chmod 0600 $HOME/.ssh/id_rsa
 
-sleep 600
-
 # Make sure we've got everything from production
 rsync -rvz $RELEASE $CACHEDIR
 
