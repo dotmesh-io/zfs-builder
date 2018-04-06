@@ -11,6 +11,21 @@ The zfs-builder CronJob in the production cluster (see the `saas-manifests` repo
 
 The ZFS module cache is stored in the dot `zfs-kernel-modules` on the dothub (admin namespace)!
 
+To set up jobs in production:
+```
+Log into the production dotmesh cluster and create the namespace:
+$ kubectl create namespace zfs-builder
+
+Copy id_rsa key for access to releases@get.dotmesh.io from LastPass into file release-ssh-keys and add it as a secret into the namespace zfs-builder
+$ kubectl create secret generic release-ssh-keys --from-file=release-ssh-keys -n zfs-builder
+
+Update saas-manifests repository to automate the deployment in Weavecloud
+zfs-builder-cronjob.yaml:
+metadata:
+  annotations:
+      flux.weave.works/automated: "true"
+```
+
 To look at the status of the CronJob and the last three Jobs to run in production:
 
 ```
