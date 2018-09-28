@@ -1,11 +1,24 @@
-When there's a new kernel:
+# Manual instructions
+
+When there's a new Docker for Mac kernel:
 
 ```
 docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit-$(docker run -ti busybox uname -r |cut -d '-' -f 1)
 docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit
 ```
 
-When `rebuild.sh` is run in this repo, a new zfs-builder image is sent to quay.io.
+Then edit the version in `build_kernel_modules_manually.sh` and run it.
+
+A new tarball like `zfs-4.9.125-linuxkit.tar.gz` is placed into `/tmp/zfs-builder/` on your host.
+To manually deploy it, `scp` it like this:
+
+```
+scp zfs-4.9.125-linuxkit.tar.gz releases@get.dotmesh.io:/pool/releases/zfs
+```
+
+---
+
+# Docs about the defunct automatic kernel builder
 
 The zfs-builder CronJob in the production cluster (see the `saas-manifests` repo) picks up that image.
 
