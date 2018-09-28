@@ -9,7 +9,7 @@ docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit
 
 Then edit the version in `build_kernel_modules_manually.sh` and run it.
 
-A new tarball like `zfs-4.9.125-linuxkit.tar.gz` is placed into `/tmp/zfs-builder/` on your host.
+It may finish with an error about some `rootfs` directory not existing, but nonetheless a new tarball like `zfs-4.9.125-linuxkit.tar.gz` should be placed into `/tmp/zfs-builder/` on your host.
 To manually deploy it, `scp` it like this:
 
 ```
