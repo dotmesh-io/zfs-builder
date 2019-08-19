@@ -12,7 +12,7 @@ It may finish with an error about some `rootfs` directory not existing, but none
 To manually deploy it, `scp` it like this:
 
 ```
-scp zfs-4.9.125-linuxkit.tar.gz releases@get.dotmesh.io:/pool/releases/zfs
+scp zfs-4.9.125-linuxkit.tar.gz releases@get-discovery.dotmesh.io:/pool/releases/zfs
 ```
 
 ---
