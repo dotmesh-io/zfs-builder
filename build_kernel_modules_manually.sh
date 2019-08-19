@@ -35,6 +35,6 @@ function build {
     fi
 }
 
-build 4.9.125 4.9.125-linuxkit linuxkit
+build $1 $1-linuxkit linuxkit
 
 rsync -rvz $CACHEDIR/ $RELEASE

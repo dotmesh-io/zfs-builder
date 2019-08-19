@@ -5,9 +5,8 @@ When there's a new Docker for Mac kernel:
 ```
 docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit-$(docker run -ti busybox uname -r |cut -d '-' -f 1)
 docker run -ti busybox zcat /proc/config.gz > kernel_config.linuxkit
+./build_kernel_modules_manually.sh $(docker run -ti busybox uname -r |cut -d '-' -f 1)
 ```
-
-Then edit the version in `build_kernel_modules_manually.sh` and run it.
 
 It may finish with an error about some `rootfs` directory not existing, but nonetheless a new tarball like `zfs-4.9.125-linuxkit.tar.gz` should be placed into `/tmp/zfs-builder/` on your host.
 To manually deploy it, `scp` it like this:
