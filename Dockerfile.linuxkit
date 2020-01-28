@@ -14,7 +14,11 @@ RUN apt-get update && apt-get -y install \
                         gcc libc6 libc6-dev \
                         kmod \
                         automake \
-                        pkg-config
+                        pkg-config \
+                        bison \
+                        flex \
+                        libelf-dev \
+                        libssl-dev
 
 # https://www.kernel.org/
 ARG KERNEL_VERSION
